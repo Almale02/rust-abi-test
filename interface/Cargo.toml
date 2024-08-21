@@ -5,5 +5,5 @@ edition = "2021"
 
 [dependencies]
 abi_stable = "0.11.3"
-#stabby = "36.1.1"
-stabby = { path = "../stabby/stabby" }
+stabby = "36.1.1"
+#stabby = { path = "../stabby/stabby" }

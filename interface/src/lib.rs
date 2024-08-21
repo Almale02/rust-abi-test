@@ -2,10 +2,12 @@
 
 use stabby::boxed::Box as RBox;
 use stabby::string::String as RString;
-use stabby::{dynptr, stabby, Dyn};
+use stabby::{dynptr, stabby};
 
 pub mod prelude {
-    pub use crate::Shared;
+    pub use crate::GetSharedOutType;
+    pub use crate::Plugin;
+    pub use crate::SharedTrait;
     pub use stabby::boxed::Box as RBox;
     pub use stabby::closure as rclosure;
     pub use stabby::dynptr;
@@ -20,20 +22,17 @@ pub trait SharedTrait {
     extern fn get_data(&self) -> u32;
 }
 
-#[stabby::stabby]
-pub struct Shared {
-    pub number: RString,
-}
-impl SharedTrait for Shared {
-    extern "C" fn get_data(&self) -> u32 {
-        256
-    }
-}
+pub type GetSharedOutType = dynptr!(RBox<dyn SharedTrait>);
 
+/// In your plugin inplementation you have to create an extern function call `get_plugin` which returns the `Plugin` instance
+///
+/// # Implementation
+/// ```
+/// pub extern fn get_plugin() -> Plugin;
+///
+/// ```
+//#[allow(clippy::type_complexity)]
 #[stabby]
-pub fn get_shared() -> dynptr!(RBox<dyn SharedTrait>) {
-    RBox::new(Shared {
-        number: "value from plugin".into(),
-    })
-    .into()
+pub struct Plugin {
+    pub get_shared: extern fn() -> GetSharedOutType,
 }

@@ -3,5 +3,7 @@ members = [
   "plugin",
   "app",
   "interface",
-  "stabby"
 ]
+
+[workspace.metadata.rustfmt]
+force_explicit_abi = false
