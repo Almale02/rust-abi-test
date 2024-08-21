@@ -1,0 +1,7 @@
+[workspace]
+members = [
+  "plugin",
+  "app",
+  "interface",
+  "stabby"
+]
