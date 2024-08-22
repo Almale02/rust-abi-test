@@ -1,9 +1,14 @@
+static mut GLOBAL: i32 = 0;
+
 use interface::prelude::*;
 
 #[stabby::export]
 #[stabby]
 pub extern fn get_plugin() -> Plugin {
-    Plugin { get_shared }
+    Plugin {
+        get_shared,
+        get_system,
+    }
 }
 pub struct GetSharedImpl;
 
@@ -16,11 +21,15 @@ extern fn get_shared() -> GetSharedOutType {
     RBox::new(GetSharedImpl).into()
 }
 fn system(x: u32, y: u32) {
-    println!("rana from u32 system lib, x: {}, y: {}", x, y);
+    let global = unsafe { &mut GLOBAL };
+
+    *global += 1;
+    println!(
+        "ran from u32 system lib, x: {}, y: {}, global: {}",
+        x, y, global
+    );
 }
-#[stabby::export]
 #[stabby]
 extern fn get_system() -> BoxedSystem {
-    dbg!("b");
     RBox::new(system).system()
 }

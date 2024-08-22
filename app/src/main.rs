@@ -21,16 +21,9 @@ fn main() {
     let plugin =
         unsafe { StabbyLibrary::get_stabbied::<extern fn() -> Plugin>(&lib, b"get_plugin") }
             .unwrap()();
-    let system =
-        unsafe { StabbyLibrary::get_stabbied::<extern fn() -> BoxedSystem>(&lib, b"get_system") }
-            .unwrap()();
-    //let a = stable_fn();
-
-    //let a = (a.get_shared)();
-    //a.get_system().run();
-    //let a = a.get_data();
-    /*println!(
-        "it worknigngggggggggggggggggggggggggggggg!@!!!!!!!!!!!!!!!##2323323!3 ggs, {:?}",
-        a
-    );*/
+    let mut system = (plugin.get_system)();
+    system.run();
+    system.run();
+    system.run();
+    system.run();
 }

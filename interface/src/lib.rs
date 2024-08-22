@@ -51,6 +51,7 @@ pub type BoxedSystem = dynptr!(RBox<dyn System>);
 #[stabby]
 pub struct Plugin {
     pub get_shared: extern fn() -> GetSharedOutType,
+    pub get_system: extern fn() -> BoxedSystem,
 }
 
 macro_rules! implement_into_system {
