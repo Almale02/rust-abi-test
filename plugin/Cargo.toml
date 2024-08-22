@@ -11,5 +11,5 @@ stabby = "36.1.1"
 
 
 [lib]
-name = "text_operations"
+name = "plugin_1"
 crate-type = ["cdylib"]

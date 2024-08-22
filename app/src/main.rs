@@ -1,10 +1,9 @@
 use interface::{prelude::*, SharedTraitDyn};
-use rclosure::Call0;
 use stabby::libloading::StabbyLibrary;
-use std::{env::current_dir, fs::File};
+use std::env::current_dir;
 
 fn main() {
-    let mut plugin_path = format!(
+    let mut plugin_path: String = format!(
         "{}/{}",
         current_dir()
             .unwrap()
@@ -19,15 +18,19 @@ fn main() {
 
     let lib = unsafe { libloading::Library::new(path).unwrap() };
 
-    let stable_fn =
+    let plugin =
         unsafe { StabbyLibrary::get_stabbied::<extern fn() -> Plugin>(&lib, b"get_plugin") }
-            .unwrap();
-    let a = stable_fn();
+            .unwrap()();
+    let system =
+        unsafe { StabbyLibrary::get_stabbied::<extern fn() -> BoxedSystem>(&lib, b"get_system") }
+            .unwrap()();
+    //let a = stable_fn();
 
-    let a = (a.get_shared)();
-    let a = a.get_data();
-    println!(
+    //let a = (a.get_shared)();
+    //a.get_system().run();
+    //let a = a.get_data();
+    /*println!(
         "it worknigngggggggggggggggggggggggggggggg!@!!!!!!!!!!!!!!!##2323323!3 ggs, {:?}",
         a
-    );
+    );*/
 }

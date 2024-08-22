@@ -12,6 +12,15 @@ impl SharedTrait for GetSharedImpl {
         1
     }
 }
-pub extern fn get_shared() -> GetSharedOutType {
+extern fn get_shared() -> GetSharedOutType {
     RBox::new(GetSharedImpl).into()
+}
+fn system(x: u32, y: u32) {
+    println!("rana from u32 system lib, x: {}, y: {}", x, y);
+}
+#[stabby::export]
+#[stabby]
+extern fn get_system() -> BoxedSystem {
+    dbg!("b");
+    RBox::new(system).system()
 }
